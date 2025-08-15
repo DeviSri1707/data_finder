@@ -38,58 +38,70 @@ def run_data_analysis(questions_text, files):
         # For other files, mention them
         else:
             file_info += f"File '{filename}' is attached.\n\n"
-    
-    # Construct the system message for the LLM
-    system_prompt = f"""
-    You are an expert data analyst. Your task is to answer a user's questions by writing and executing Python code.
-    
-    The user will provide a set of questions in a text file and may include additional data files.
-    
-    Follow these instructions carefully:
-    1.  Your final output must be a single, complete Python script. Do not include any text before or after the script.
-    2.  The script must perform all necessary data operations, including web scraping (if needed), data loading, cleaning, analysis, and visualization.
-    3.  Load all provided file data directly from the in-memory content. The files dictionary `files` is already available to you. For example, to read `data.csv`, use `pd.read_csv(io.StringIO(files['data.csv'].decode('utf-8')))`
-    4.  If the task requires a visualization, generate a plot, save it to an in-memory buffer, and convert it to a base64 encoded data URI. The size must be under 100,000 bytes. Do not save to a local file. Use the provided plotting code snippet for this purpose.
-    5.  Print the final answer to standard output. The output must be in the exact JSON format specified in the user's questions. Do not print any other text.
-    
-    Example plotting code snippet for base64 encoding:
-    ```python
-    import io
-    import base64
-    import matplotlib.pyplot as plt
-    
-    def get_base64_plot(fig):
-        img_buffer = io.BytesIO()
-        fig.savefig(img_buffer, format='png')
-        img_buffer.seek(0)
-        img_base64 = base64.b64encode(img_buffer.read()).decode('utf-8')
-        plt.close(fig)
-        return f"data:image/png;base64,{img_base64}"
-    
-    # Example usage:
-    # fig, ax = plt.subplots()
-    # ax.scatter(...)
-    # ...
-    # base64_image = get_base64_plot(fig)
-    # print(json.dumps(["answer1", "answer2", base64_image]))
-    ```
-    
-    Here is the user's request:
-    
-    ---
-    
-    User Questions:
-    {questions_text}
-    
-    Attached files:
-    {file_info}
-    
-    ---
-    
-    Your Python script should be a single block of code that directly produces the final JSON output.
-    Begin your response with the Python code block.
-    """
-    
+   # Corrected prompt snippet for `run_data_analysis` function
+# ...
+    # Construct the system message for the LLM
+    system_prompt = f"""
+    You are an expert data analyst. Your task is to answer a user's questions by writing and executing Python code.
+    
+    The user will provide a set of questions in a text file and may include additional data files.
+    
+    Follow these instructions carefully:
+    1.  Your final output must be a single, complete Python script. Do not include any text before or after the script.
+    2.  The script must perform all necessary data operations, including web scraping (if needed), data loading, cleaning, analysis, and visualization. Use the 'networkx' library for network analysis.
+    3.  Load all provided file data directly from the in-memory content. The files dictionary `files` is already available to you. For example, to read `data.csv`, use `pd.read_csv(io.StringIO(files['data.csv'].decode('utf-8')))`
+    4.  If the task requires a visualization, generate a plot, save it to an in-memory buffer, and convert it to a base64 encoded data URI. The size must be under 100,000 bytes. Do not save to a local file. Use the provided plotting code snippet for this purpose.
+    5.  Print the final answer to standard output. The output must be in the exact JSON format specified in the user's questions. Do not print any other text.
+    
+    Example plotting code snippet for base64 encoding:
+    ```python
+    import io
+    import base64
+    import matplotlib.pyplot as plt
+    import networkx as nx
+    
+    def get_base64_plot(fig):
+        img_buffer = io.BytesIO()
+        fig.savefig(img_buffer, format='png')
+        img_buffer.seek(0)
+        img_base64 = base64.b64encode(img_buffer.read()).decode('utf-8')
+        plt.close(fig)
+        return f"data:image/png;base64,{img_base64}"
+    
+    # Example usage:
+    # fig_network, ax_network = plt.subplots(figsize=(8, 6))
+    # nx.draw(G, ax=ax_network, ...)
+    # network_graph_b64 = get_base64_plot(fig_network)
+    # fig_hist, ax_hist = plt.subplots(figsize=(8, 6))
+    # ax_hist.bar(...)
+    # degree_histogram_b64 = get_base64_plot(fig_hist)
+    # 
+    # final_output = {
+    #    "edge_count": 7,
+    #    "highest_degree_node": "Bob",
+    #    ...
+    #    "network_graph": network_graph_b64,
+    #    "degree_histogram": degree_histogram_b64
+    # }
+    # print(json.dumps(final_output))
+    ```
+    
+    Here is the user's request:
+    
+    ---
+    
+    User Questions:
+    {questions_text}
+    
+    Attached files:
+    {file_info}
+    
+    ---
+    
+    Your Python script should be a single block of code that directly produces the final JSON output.
+    Begin your response with the Python code block.
+    """
+# ...
     # Ask the LLM to generate the script
     try:
         response = client.chat.completions.create(
