@@ -77,13 +77,13 @@ def run_data_analysis(questions_text, files):
     # degree_histogram_b64 = get_base64_plot(fig_hist)
     # 
     # final_output = {
-    #     "edge_count": 7,
-    #     "highest_degree_node": "Bob",
-    #     ...
-    #     "network_graph": network_graph_b64,
-    #     "degree_histogram": degree_histogram_b64
-    # }
-    # print(json.dumps(final_output))
+        "edge_count": 7,
+         "highest_degree_node": "Bob",
+         ...
+         "network_graph": network_graph_b64,
+         "degree_histogram": degree_histogram_b64
+     }
+     print(json.dumps(final_output))
     ```
     
     Here is the user's request:
