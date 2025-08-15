@@ -39,8 +39,8 @@ def run_data_analysis(questions_text, files):
         else:
             file_info += f"File '{filename}' is attached.\n\n"
    # Corrected prompt snippet for `run_data_analysis` function
-# ...
-    # Construct the system message for the LLM
+   # ...
+   # Construct the system message for the LLM
     system_prompt = f"""
     You are an expert data analyst. Your task is to answer a user's questions by writing and executing Python code.
     
