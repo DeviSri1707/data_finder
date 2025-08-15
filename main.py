@@ -3,7 +3,7 @@ import json
 import io
 import pandas as pd
 import numpy as np
-import networkx as nx  # <-- Corrected: Added missing import
+import networkx as nx
 from fastapi import FastAPI, File, UploadFile, Form
 from openai import OpenAI
 import matplotlib.pyplot as plt
@@ -115,7 +115,7 @@ def run_data_analysis(questions_text, files):
         generated_code = response.choices[0].message.content.strip("```python\n").strip("\n```")
         
         # Create a temporary namespace for execution
-        namespace = {'pd': pd, 'np': np, 'plt': plt, 'io': io, 'base64': base64, 'json': json, 'requests': requests, 'BeautifulSoup': BeautifulSoup, 're': re, 'duckdb': duckdb, 'files': files, 'nx': nx} # <-- Corrected: added networkx to the namespace
+        namespace = {'pd': pd, 'np': np, 'plt': plt, 'io': io, 'base64': base64, 'json': json, 'requests': requests, 'BeautifulSoup': BeautifulSoup, 're': re, 'duckdb': duckdb, 'files': files, 'nx': nx}
         
         # Capture standard output
         import sys
