@@ -2,6 +2,7 @@ import base64
 import json
 import io
 import pandas as pd
+import numpy as np
 from fastapi import FastAPI, File, UploadFile, Form
 from openai import OpenAI
 import matplotlib.pyplot as plt
@@ -130,7 +131,7 @@ def run_data_analysis(questions_text, files):
     except Exception as e:
         return {"error": str(e), "generated_code": generated_code}
 
-@app.post("/api/")
+@app.post("/")
 async def analyze_data(
     questions: UploadFile = File(..., alias="questions.txt"),
     additional_files: list[UploadFile] = File(None)
